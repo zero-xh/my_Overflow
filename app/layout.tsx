@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
-import { Noto_Sans_SC, JetBrains_Mono } from "next/font/google";
+import { Noto_Sans_SC, JetBrains_Mono, Geist } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "@/context/Theme";
+import { cn } from "@/lib/utils";
+import Navbar from "@/components/navigation/navbar";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
 
 // 配置中文字体：Noto Sans SC
 const notoSansSC = Noto_Sans_SC({
@@ -28,10 +34,16 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="zh-CN" // 建议改为 zh-CN 以利于浏览器识别语言
-      className={`${notoSansSC.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      lang="zh-CN"
+      className={cn("h-full", "antialiased", notoSansSC.variable, jetbrainsMono.variable, "font-sans", geist.variable)}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Navbar/>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
