@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { Noto_Sans_SC, JetBrains_Mono, Geist } from "next/font/google";
-import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 import ThemeProvider from "@/context/Theme";
 import { cn } from "@/lib/utils";
-import Navbar from "@/components/navigation/navbar";
+import "./globals.css";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
+import { ReactNode } from "react";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 // 配置中文字体：Noto Sans SC
 const notoSansSC = Noto_Sans_SC({
@@ -27,23 +29,32 @@ export const metadata: Metadata = {
     "Stack Overflow 风格编程技术问答社区，为开发者提供提问、回答、技术交流服务，覆盖前端、后端、算法、全栈开发等领域。",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
+  const session = await auth();
+
   return (
     <html
       lang="zh-CN"
-      className={cn("h-full", "antialiased", notoSansSC.variable, jetbrainsMono.variable, "font-sans", geist.variable)}
+      className={cn(
+        "h-full",
+        "antialiased",
+        notoSansSC.variable,
+        jetbrainsMono.variable,
+        "font-sans",
+        geist.variable,
+      )}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Navbar/>
-          {children}
-        </ThemeProvider>
-      </body>
+      <SessionProvider session={session}>
+        <body className="min-h-full flex flex-col">
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+          </ThemeProvider>
+          <Toaster />
+        </body>
+      </SessionProvider>
     </html>
   );
-}
+};
+
+export default RootLayout;
