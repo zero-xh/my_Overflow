@@ -9,7 +9,7 @@ const Home = async () => {
   return (
     <>
       <div>首页</div>
-      <form
+      {/* <form
         className="px-10 pt-25"
         action={async () => {
           "use server";
@@ -18,7 +18,7 @@ const Home = async () => {
         }}
       >
         <Button>退出登录</Button>
-      </form>
+      </form> */}
     </>
   );
 };
