@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
@@ -11,7 +12,7 @@ const questions = [
     description: "I want to laern React, can anyone help me?",
     tags: [
       { _id: "1", name: "React" },
-      { _id: "2", name: "JavaScript" },
+      { _id: "2", name: "React" },
     ],
     author: { _id: "1", name: "John Doe" },
     upvotes: 10,
@@ -24,7 +25,7 @@ const questions = [
     title: "How to learn JavaScript?",
     description: "I want to laern React, can anyone help me?",
     tags: [
-      { _id: "1", name: "React" },
+      { _id: "1", name: "JavaScript" },
       { _id: "2", name: "JavaScript" },
     ],
     author: { _id: "1", name: "John Doe" },
@@ -39,11 +40,17 @@ interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
 const Home = async ({ searchParams }: SearchParams) => {
-  const { query = "" } = await searchParams;
+  const { query = "", filter = "" } = await searchParams;
 
-  const filteredQuestions = questions.filter((question) =>
-    question.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()),
-  );
+  const filteredQuestions = questions.filter((question) => {
+    const matchQuery = question.title
+      .toLowerCase()
+      .includes(query.toLowerCase());
+    const matchFilter = question.tags[0].name
+      .toLowerCase()
+      .includes(filter.toLowerCase());
+    return matchQuery && matchFilter;
+  });
 
   return (
     <>
@@ -64,7 +71,7 @@ const Home = async ({ searchParams }: SearchParams) => {
           otherClasses="fles-1"
         />
       </section>
-      HomeFilter
+      <HomeFilter />
       <div className="mt-10 flex w-full flex-col gap-6">
         {filteredQuestions.map((question) => (
           <h1 key={question._id}>{question.title}</h1>
