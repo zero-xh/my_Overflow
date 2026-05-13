@@ -16,7 +16,7 @@ const popularTags = [
   { _id: "2", name: "javascript", questions: 200 },
   { _id: "3", name: "typeScript", questions: 150 },
   { _id: "4", name: "nextjs", questions: 50 },
-  { _id: "4", name: "react-query", questions: 75 },
+  { _id: "5", name: "react-query", questions: 75 },
 ];
 
 const RightSidebar = () => {
