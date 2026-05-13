@@ -7,20 +7,20 @@ export interface IUser {
     bio?: string
     image: string
     location?: string
-    protfolio?: string
+    portfolio?: string
     reputation?: string
 }
 
 const UserSchema = new Schema<IUser>(
     {
-        name: { type: String, require: true },
-        username: { type: String, require: true },
-        email: { type: String, require: true, unique: true },
+        name: { type: String, required: true },
+        username: { type: String, required: true },
+        email: { type: String, required: true, unique: true },
         bio: { type: String },
-        image: { type: String, require: true },
+        image: { type: String },
         location: { type: String },
-        protfolio: { type: String },
-        reputation: { type: Number, require: 0 },
+        portfolio: { type: String },
+        reputation: { type: Number, default: 0 },
     },
     {
         timestamps: true

@@ -66,3 +66,21 @@ export const AskQuestionSchema = z.object({
         .min(1, { message: "至少需要添加1个标签" })
         .max(3, { message: "最多只能添加3个标签" }),
 });
+
+export const UserSchema = z.object({
+    name: z
+        .string().min(1, { message: "姓名不能为空" }),
+    username: z
+        .string()
+        .min(3, { message: "用户名长度至少为3个字符" })
+        .max(30, { message: "用户名长度不能超过30个字符" })
+        .regex(/^[a-zA-Z0-9_]+$/, {
+            message: "用户名只能包含字母、数字和下划线",
+        }),
+    email: z.email({ message: "请输入有效的邮箱地址" }),
+    bio: z.string().optional(),
+    image: z.url({ message: "请输入有效的图片URL" }).optional(),
+    location: z.string().optional(),
+    portfolio: z.url({ message: "请输入有效的个人主页URL" }).optional(),
+    reputation: z.number().optional(),
+});
