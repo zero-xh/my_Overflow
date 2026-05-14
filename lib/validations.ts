@@ -84,3 +84,32 @@ export const UserSchema = z.object({
     portfolio: z.url({ message: "请输入有效的个人主页URL" }).optional(),
     reputation: z.number().optional(),
 });
+
+export const AccountSchema = z.object({
+    userId: z
+        .string()
+        .min(1, { message: "用户 ID 不能为空" }),
+    name: z
+        .string()
+        .min(1, { message: "姓名不能为空" })
+        .max(50, { message: "姓名长度不能超过50个字符" }),
+    image: z.url({ message: "请输入有效的图片URL" }).optional(),
+    password: z
+        .string()
+        .min(6, { message: "密码长度至少为6位" })
+        .max(100, { message: "密码长度不能超过100位" })
+        .regex(/[A-Z]/, {
+            message: "密码必须包含至少一个大写字母",
+        })
+        .regex(/[a-z]/, {
+            message: "密码必须包含至少一个小写字母",
+        })
+        .regex(/[0-9]/, { message: "密码必须包含至少一个数字" })
+        .regex(/[^a-zA-Z0-9]/, {
+            message: "密码必须包含至少一个特殊字符",
+        })
+        .optional(),
+    provider: z.string().min(1, { message: "认证提供方不能为空" }),
+    providerAccountId: z.string().min(1, { message: "第三方账号 ID不能为空" }),
+});
+

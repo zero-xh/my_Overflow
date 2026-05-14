@@ -3,7 +3,7 @@ import { model, models, Schema, Types } from "mongoose";
 export interface IAccount {
     userId: Types.ObjectId
     name: string
-    image: string
+    image?: string
     password: string
     provider: string
     providerAccountId: string
@@ -11,12 +11,12 @@ export interface IAccount {
 
 const AccountSchema = new Schema<IAccount>(
     {
-        userId: { type: Types.ObjectId, ref: "User", require: true },
-        name: { type: String, require: true },
+        userId: { type: Types.ObjectId, ref: "User", required: true },
+        name: { type: String, required: true },
         image: { type: String },
-        password: { type: String, require: true },
-        provider: { type: String, require: true },
-        providerAccountId: { type: String, require: true },
+        password: { type: String, required: true },
+        provider: { type: String, required: true },
+        providerAccountId: { type: String, required: true },
     },
     {
         timestamps: true
