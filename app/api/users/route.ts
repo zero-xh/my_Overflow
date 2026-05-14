@@ -18,6 +18,7 @@ export async function GET() {
     }
 }
 
+//新建用户
 export async function POST(request: Request) {
     try {
         await dbConnect()
