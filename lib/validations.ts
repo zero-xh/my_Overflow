@@ -30,8 +30,6 @@ export const SignUpSchema = z.object({
         }),
 
     email: z
-        .string()
-        .min(1, { message: "邮箱不能为空" })
         .email({ message: "请输入有效的邮箱地址" }),
 
     password: z
@@ -113,3 +111,15 @@ export const AccountSchema = z.object({
     providerAccountId: z.string().min(1, { message: "第三方账号 ID不能为空" }),
 });
 
+export const SignInWithOAuthSchema = z.object({
+    provider: z.enum(["github"]),
+    providerAccountId: z.string().min(1, { message: "第三方账号 ID不能为空" }),
+    user: z.object({
+        name: z.string().min(1, { message: "姓名不能为空" }),
+        username: z.string()
+            .min(3, { message: "用户名长度至少为3个字符" })
+            .max(30, { message: "用户名长度不能超过30个字符" }),
+        email: z.email({ message: "请输入有效的邮箱地址" }),
+        image: z.url({ message: "请输入有效的图片URL" }).optional(),
+    }),
+});
