@@ -1,20 +1,26 @@
-import { model, models, Schema, Types } from "mongoose";
+import mongoose from "mongoose";
 
 export interface ICollection {
-    author: Types.ObjectId
-    question: Types.ObjectId
+    userId: mongoose.Types.ObjectId
+    name: string
+    description?: string
+    questions: mongoose.Types.ObjectId[]
 }
 
-const CollectionSchema = new Schema<ICollection>(
+export interface ICollectionDoc extends ICollection, mongoose.Document { }
+
+const CollectionSchema = new mongoose.Schema<ICollection>(
     {
-        author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-        question: { type: Schema.Types.ObjectId, ref: "Qusetion", required: true }
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+        name: { type: String, required: true },
+        description: { type: String },
+        questions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Question" }]
     },
     {
         timestamps: true
     }
 )
 
-const Collection = models?.Collection || model<ICollection>("Collection", CollectionSchema)
+const Collection = mongoose.models.Collection || mongoose.model<ICollection>("Collection", CollectionSchema)
 
 export default Collection

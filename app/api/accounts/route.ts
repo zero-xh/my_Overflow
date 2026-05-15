@@ -3,7 +3,7 @@ import handleError from "@/lib/handlers/error";
 import { ForbiddenError } from "@/lib/http-errors";
 import dbConnect from "@/lib/mongoose";
 import { AccountSchema } from "@/lib/validations";
-import { APIErrorResponse } from "@/type/global";
+import { APIErrorResponse } from "@/types/global";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         if (existingAccount) {
             throw new ForbiddenError("该第三方账号已绑定")
         }
-        
+
         const newAccount = await Account.create(validatedData);
         return NextResponse.json({ success: true, data: newAccount }, { status: 201 })
     } catch (error) {

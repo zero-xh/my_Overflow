@@ -1,17 +1,17 @@
-import { model, models, Schema, Types } from "mongoose";
+import mongoose from "mongoose";
 
 export interface Iinteraction {
-    user: Types.ObjectId
+    user: mongoose.Types.ObjectId
     action: string
-    actionId: Types.ObjectId
+    actionId: mongoose.Types.ObjectId
     actionType: string
 }
 
-const interactionSchema = new Schema<Iinteraction>(
+const interactionSchema = new mongoose.Schema<Iinteraction>(
     {
-        user: { type: Schema.Types.ObjectId, ref: "User", require: true },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User", require: true },
         action: { type: String, required: true },
-        actionId: { type: Schema.Types.ObjectId, require: true },
+        actionId: { type: mongoose.Schema.Types.ObjectId, require: true },
         actionType: { type: String, enum: ["question", "answer"], require: true }
     },
     {
@@ -19,6 +19,6 @@ const interactionSchema = new Schema<Iinteraction>(
     }
 )
 
-const interaction = models?.interaction || model<Iinteraction>("interaction", interactionSchema)
+const interaction = mongoose.models.interaction || mongoose.model<Iinteraction>("interaction", interactionSchema)
 
 export default interaction

@@ -3,7 +3,7 @@ import handleError from "@/lib/handlers/error";
 import { NotFoundError, ValidationError } from "@/lib/http-errors";
 import dbConnect from "@/lib/mongoose";
 import { AccountSchema } from "@/lib/validations";
-import { APIErrorResponse } from "@/type/global";
+import { APIErrorResponse } from "@/types/global";
 import { NextResponse } from "next/server";
 
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -45,7 +45,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         await dbConnect();
         const body = await request.json();
         const validatedData = AccountSchema.partial().safeParse(body);
-        if(!validatedData.success) {
+        if (!validatedData.success) {
             throw new ValidationError(validatedData.error.flatten().fieldErrors);
         }
         const updateAccount = await Account.findByIdAndUpdate(id, validatedData.success ? validatedData.data : body, { new: true });

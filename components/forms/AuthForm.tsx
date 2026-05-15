@@ -9,15 +9,15 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import {
-  Field,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { z, ZodType } from "zod";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import ROUTES from "@/constants/routes";
+import { ActionResponse } from "@/types/global";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const FIELD_LABELS: Record<string, string> = {
   email: "邮箱地址",
@@ -29,7 +29,7 @@ const FIELD_LABELS: Record<string, string> = {
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
   defaultValues: T;
-  onSubmit: (data: T) => Promise<{ success: boolean }>;
+  onSubmit: (data: T) => Promise<ActionResponse>;
   formType: "SIGN_IN" | "SIGN_UP";
 }
 
@@ -39,14 +39,28 @@ const AuthForm = <T extends FieldValues>({
   formType,
   onSubmit,
 }: AuthFormProps<T>) => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<T>,
   });
 
-  const handleSubmit: SubmitHandler<T> = async () => {};
-
   const buttonText = formType === "SIGN_IN" ? "登录" : "注册";
+  const handleSubmit: SubmitHandler<T> = async (data) => {
+    const result = (await onSubmit(data)) as ActionResponse;
+    if (result?.success) {
+      toast(buttonText, {
+        description: `${buttonText}成功`,
+        position: "top-center",
+      });
+      router.push(ROUTES.HOME);
+    } else {
+      toast(buttonText, {
+        description: result?.error?.message,
+        position: "top-center",
+      });
+    }
+  };
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
@@ -70,6 +84,7 @@ const AuthForm = <T extends FieldValues>({
                 {...field}
                 className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-12 rounded-1.5 border"
               />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
         />

@@ -1,16 +1,18 @@
-import { model, models, Schema, Types } from "mongoose";
+import mongoose from "mongoose";
 
 export interface IVote {
-    author: Types.ObjectId
-    id: Types.ObjectId
+    author: mongoose.Types.ObjectId
+    id: mongoose.Types.ObjectId
     type: "question" | "answer"
     voteType: "upvote" | "downvote"
 }
 
-const VoteSchema = new Schema<IVote>(
+export interface IVoteDoc extends IVote, mongoose.Document { }
+
+const VoteSchema = new mongoose.Schema<IVote>(
     {
-        author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-        id: { type: Schema.Types.ObjectId, required: true },
+        author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+        id: { type: mongoose.Schema.Types.ObjectId, required: true },
         type: { type: String, enum: ["question", "answer"], required: true },
         voteType: { type: String, enum: ["upvote", "downvote"], required: true }
     },
@@ -19,6 +21,6 @@ const VoteSchema = new Schema<IVote>(
     }
 )
 
-const Vote = models?.Vote || model<IVote>("Vote", VoteSchema)
+const Vote = mongoose.models.Vote || mongoose.model<IVote>("Vote", VoteSchema)
 
 export default Vote

@@ -3,7 +3,7 @@ import handleError from "@/lib/handlers/error";
 import { NotFoundError } from "@/lib/http-errors";
 import dbConnect from "@/lib/mongoose";
 import { UserSchema } from "@/lib/validations";
-import { APIErrorResponse } from "@/type/global";
+import { APIErrorResponse } from "@/types/global";
 import { NextResponse } from "next/server";
 
 //获取用户信息
@@ -53,4 +53,3 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         return handleError(error, 'api') as APIErrorResponse;
     }
 }
- 
