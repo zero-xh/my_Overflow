@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { JSX } from "react/jsx-runtime"
 
 interface Tag {
     _id: string
@@ -12,6 +13,7 @@ interface Author {
 }
 
 interface Question {
+    map(arg0: (question: any) => JSX.Element): import("react").ReactNode
     _id: string;
     title: string;
     content: string;

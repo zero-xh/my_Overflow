@@ -3,7 +3,7 @@
 import { AskQuestionSchema, EditQuestionSchema, GetQuestionSchema, PaginatedSearchSchema } from "../validations";
 import handleError from "../handlers/error";
 import action from "../handlers/action";
-import mongoose, { FilterQuery } from "mongoose";
+import mongoose, { QueryFilter } from "mongoose";
 import Question, { IQuestionDoc } from "@/database/question.model";
 import Tag, { ITagDoc } from "@/database/tag.model";
 import TagQuestion from "@/database/tag-question-model";
@@ -184,7 +184,7 @@ export async function getQuestions(
     const { page = 1, pageSize = 10, query, filter, sort } = params;
     const skip = (Number(page - 1) * pageSize);
     const limit = Number(pageSize);
-    const filterQuery: FilterQuery<typeof Question> = {};
+    const filterQuery: QueryFilter<typeof Question> = {};
     if (filter === "recommended") {
         {
             return { success: true, data: { questions: [], isNext: false } }
