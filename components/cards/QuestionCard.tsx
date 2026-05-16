@@ -1,9 +1,9 @@
 import ROUTES from "@/constants/routes";
 import { getTimeStamp } from "@/lib/utils";
 import Link from "next/link";
-import React from "react";
 import TagCard from "./TagCard";
 import Metric from "../Metric";
+import { Question } from "@/types/global";
 
 interface Props {
   question: Question;
@@ -11,6 +11,8 @@ interface Props {
 const QuestionCard = ({
   question: { _id, title, tags, author, createdAt, upvotes, answers, views },
 }: Props) => {
+  console.log(tags);
+
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
@@ -32,7 +34,7 @@ const QuestionCard = ({
       </div>
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <Metric
-          imgUrl={author.image}
+          imgUrl="/icons/like.svg"
           alt={author.name}
           value={author.name}
           title={`发布于${getTimeStamp(createdAt)}`}

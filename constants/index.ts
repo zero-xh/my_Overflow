@@ -32,6 +32,6 @@ export const sidebarLinks = [
     {
         imgURL: "/icons/question.svg",
         route: "/ask-question",
-        label: "发起提问",
+        label: "发布问题",
     },
 ];

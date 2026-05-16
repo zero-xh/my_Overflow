@@ -2,8 +2,9 @@
 import { AskQuestionSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { useRef } from "react";
+import { useRef, useTransition } from "react";
 import { MDXEditorMethods } from "@mdxeditor/editor";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import dynamic from "next/dynamic";
 import z from "zod";
 import {
@@ -16,24 +17,32 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import TagCard from "../cards/TagCard";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import ROUTES from "@/constants/routes";
+import { Question } from "@/types/global";
 
 const Editor = dynamic(() => import("../editor"), {
   ssr: false,
 });
-const QuestionForm = () => {
+
+interface Params {
+  question?: Question;
+  isEdit?: boolean;
+}
+const QuestionForm = ({ question, isEdit = false }: Params) => {
+  const router = useRouter();
   const editorRef = useRef<MDXEditorMethods>(null);
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof AskQuestionSchema>>({
     resolver: zodResolver(AskQuestionSchema),
     defaultValues: {
-      title: "",
-      content: "",
-      tags: [],
+      title: question?.title || "",
+      content: question?.content || "",
+      tags: question?.tags.map((tag) => tag.name) || [],
     },
   });
-
-  const handleCreateQuestion = (data: z.infer<typeof QuestionForm>) => {
-    console.log(data);
-  };
 
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
@@ -69,6 +78,45 @@ const QuestionForm = () => {
         message: "请输入标签",
       });
     }
+  };
+
+  const handleCreateQuestion = async (
+    data: z.infer<typeof AskQuestionSchema>,
+  ) => {
+    startTransition(async () => {
+      if (isEdit && question) {
+        const result = await editQuestion({
+          questionId: question?._id,
+          ...data,
+        });
+        if (result.success) {
+          toast("更新成功", {
+            description: "问题更新成功",
+            position: "top-center",
+          });
+          if (result.data) router.push(ROUTES.QUESTION(result.data?._id));
+        } else {
+          toast(`${result.status}`, {
+            description: result.error?.message || "发生错误",
+            position: "top-center",
+          });
+        }
+        return;
+      }
+      const result = await createQuestion(data);
+      if (result.success) {
+        toast("发布成功", {
+          description: "问题发布成功",
+          position: "top-center",
+        });
+        if (result.data) router.push(ROUTES.QUESTION(result.data?._id));
+      } else {
+        toast(`${result.status}`, {
+          description: result.error?.message || "发生错误",
+          position: "top-center",
+        });
+      }
+    });
   };
 
   return (
@@ -162,8 +210,16 @@ const QuestionForm = () => {
         <Button
           type="submit"
           className="primary-gradient w-fit text-light-900!"
+          disabled={isPending}
         >
-          发布问题
+          {isPending ? (
+            <>
+              <ReloadIcon className="mr-2 size-4 animate-spin" />
+              <span>发布中</span>
+            </>
+          ) : (
+            <>发布</>
+          )}
         </Button>
       </div>
     </form>

@@ -56,6 +56,7 @@ const TagCard = ({
       )}
     </>
   );
+
   if (compact) {
     return isButton ? (
       <button onClick={handleClick} className="flex justify-between gap-2">
@@ -67,6 +68,12 @@ const TagCard = ({
       </Link>
     );
   }
+
+  return (
+    <Link href={ROUTES.TAGS(_id)} className="flex justify-between gap-2">
+      {content}
+    </Link>
+  );
 };
 
 export default TagCard;

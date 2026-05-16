@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -12,7 +11,11 @@ import ROUTES from "@/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
 import NavLinks from "./NavLinks";
-const MobileNavigation = () => {
+import { auth, signOut } from "@/auth";
+import { LogOut } from "lucide-react";
+const MobileNavigation = async () => {
+  const session = await auth();
+  const userId = session?.user?.id;
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -48,26 +51,49 @@ const MobileNavigation = () => {
               </section>
             </SheetClose>
             <div className="flex flex-col gap-3">
-              <SheetClose asChild>
-                <Link href={ROUTES.SIGN_IN}>
-                  <Button
-                    className="small-medium btn-secondary min-h-10.25 w-full rounded-lg 
+              {userId ? (
+                <SheetClose asChild>
+                  <form
+                    action={async () => {
+                      "use server";
+                      await signOut();
+                    }}
+                  >
+                    <Button
+                      type="submit"
+                      className="base-medium bg-transparent! w-fit px-4 py-3"
+                    >
+                      <LogOut className="size-5 text-black dark:text-white" />
+                      <span className="text-dark300_light900 max-lg:hidden">
+                        退出登录
+                      </span>
+                    </Button>
+                  </form>
+                </SheetClose>
+              ) : (
+                <>
+                  <SheetClose asChild>
+                    <Link href={ROUTES.SIGN_IN}>
+                      <Button
+                        className="small-medium btn-secondary min-h-10.25 w-full rounded-lg 
                 px-4 py-3 shadow-none"
-                  >
-                    <span className="primary-text-gradient">登录</span>
-                  </Button>
-                </Link>
-              </SheetClose>
-              <SheetClose asChild>
-                <Link href={ROUTES.SIGN_UP}>
-                  <Button
-                    className="small-medium light-border-2 btn-secondary 
+                      >
+                        <span className="primary-text-gradient">登录</span>
+                      </Button>
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link href={ROUTES.SIGN_UP}>
+                      <Button
+                        className="small-medium light-border-2 btn-secondary 
                 text-dark-400 min-h-10.25 w-full rounded-lg px-4 py-3 shadow-none"
-                  >
-                    注册
-                  </Button>
-                </Link>
-              </SheetClose>
+                      >
+                        注册
+                      </Button>
+                    </Link>
+                  </SheetClose>
+                </>
+              )}
             </div>
           </div>
         </SheetHeader>
