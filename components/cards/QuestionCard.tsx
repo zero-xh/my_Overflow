@@ -11,7 +11,6 @@ interface Props {
 const QuestionCard = ({
   question: { _id, title, tags, author, createdAt, upvotes, answers, views },
 }: Props) => {
-
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
@@ -28,7 +27,7 @@ const QuestionCard = ({
       </div>
       <div className="mt-3.5 flex w-full flex-wrap gap-2">
         {tags.map((tag) => (
-          <TagCard key={tag._id} name={tag.name} _id={tag._id} />
+          <TagCard key={tag._id} name={tag.name} _id={tag._id} compact={true} />
         ))}
       </div>
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
