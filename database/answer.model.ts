@@ -8,6 +8,8 @@ export interface IAnswer {
     downvotes: number
 }
 
+export interface IAnswerDoc extends IAnswer, Document { }
+
 const AnswerSchema = new mongoose.Schema<IAnswer>(
     {
         author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },

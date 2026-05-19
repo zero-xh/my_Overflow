@@ -7,19 +7,14 @@ export interface ICollection {
     questions: mongoose.Types.ObjectId[]
 }
 
-export interface ICollectionDoc extends ICollection, mongoose.Document { }
-
+export interface ICollectionDoc extends ICollection, Document { }
 const CollectionSchema = new mongoose.Schema<ICollection>(
     {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-        name: { type: String, required: true },
-        description: { type: String },
-        questions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Question" }]
+        author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+        question: { type: mongoose.Schema.Types.ObjectId, ref: "Question", required: true },
     },
-    {
-        timestamps: true
-    }
-)
+    { timestamps: true }
+);
 
 const Collection = mongoose.models.Collection || mongoose.model<ICollection>("Collection", CollectionSchema)
 

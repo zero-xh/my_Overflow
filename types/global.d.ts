@@ -1,9 +1,7 @@
-import { NextResponse } from "next/server"
-import { JSX } from "react/jsx-runtime"
-
 interface Tag {
     _id: string
     name: string
+    questions?: number
 }
 
 interface Author {
@@ -37,11 +35,11 @@ type ActionResponse<T = null> = {
 }
 
 type SuccessResponse<T = null> = ActionResponse<T> & { success: true };
-
 type ErrorResponse = ActionResponse<undefined> & { success: false };
 
+
 type APIErrorResponse = NextResponse<ErrorResponse>
-type APIResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>
+type APIResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;
 
 interface RouteParams {
     params: Promise<Record<string, string>>
@@ -54,4 +52,30 @@ interface PaginatedSearchParams {
     query?: string;
     filter?: string;
     sort?: string;
+}
+
+interface Answer {
+    _id: string;
+    content: string;
+    author: Author;
+    cratedAt: Date;
+    upvotes: number;
+    downvotes: number;
+}
+interface User {
+    _id: string;
+    name: string;
+    username: string;
+    email: string;
+    image: string;
+    bio: string;
+    location: string;
+    portfolio: string;
+    reputation: number;
+}
+
+interface Collection {
+    _id: string;
+    question: Question;
+    author: string | Author;
 }

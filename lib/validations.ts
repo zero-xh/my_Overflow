@@ -139,3 +139,68 @@ export const PaginatedSearchSchema = z.object({
     filter: z.string().optional(),
     sort: z.string().optional(),
 });
+
+export const GetTagQuestionsSchema = PaginatedSearchSchema.extend({
+    tagId: z.string().min(1, { message: "标签 ID 不能为空" }),
+});
+
+export const AnswerSchema = z.object({
+    content: z.string().min(100, { message: "回答内容不能少于100个字符" }),
+});
+
+export const AnswerServerSchema = AnswerSchema.extend({
+    questionId: z.string().min(1, { message: "问题 ID 不能为空" }),
+});
+
+export const GetAnswersSchema = PaginatedSearchSchema.extend({
+    questionId: z.string().min(1, { message: "问题 ID 不能为空" }),
+});
+
+export const AIAnswerSchema = z.object({
+    question: z.string().min(5, { message: "问题不能为空" }).max(130, { message: "问题不能超过130个字符" }),
+    content: z.string().min(100, { message: "回答内容不能少于100个字符" }),
+    userAnswer: z.string().optional()
+})
+
+export const CreateVoteSchema = z.object({
+    targetId: z.string().min(1, { message: "目标 ID 不能为空" }),
+    targetType: z.enum(["question", "answer"], {
+        message: "必须指定投票目标类型，'question' 或 'answer'",
+    }),
+    voteType: z.enum(["upvote", "downvote"], {
+        message: "必须指定投票类型，'upvote' 或 'downvote'",
+    }),
+});
+
+export const UpdateVoteCountSchema = CreateVoteSchema.extend({
+    change: z
+        .number()
+        .int()
+        .min(-1, { message: "变更值必须为 -1 或 1" })
+        .max(1, { message: "变更值必须为 -1 或 1" }),
+});
+
+export const HasVotedSchema = CreateVoteSchema.pick({
+    targetId: true,
+    targetType: true,
+});
+
+export const CollectionBaseSchema = z.object({
+    questionId: z.string().min(1, "问题 ID 不能为空"),
+});
+
+export const CreateInteractionSchema = z.object({
+    action: z.enum([
+        "view",
+        "upvote",
+        "downvote",
+        "bookmark",
+        "post",
+        "edit",
+        "delete",
+        "search",
+    ]),
+    actionTarget: z.enum(["question", "answer"]),
+    actionId: z.string().min(1),
+    authorId: z.string().min(1),
+});
