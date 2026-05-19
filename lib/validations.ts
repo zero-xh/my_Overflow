@@ -204,3 +204,7 @@ export const CreateInteractionSchema = z.object({
     actionId: z.string().min(1),
     authorId: z.string().min(1),
 });
+
+export const GetUserSchema = z.object({
+    userId: z.string().min(1, "用户 ID 不能为空"),
+});

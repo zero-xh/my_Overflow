@@ -2,8 +2,8 @@
 import { QueryFilter } from "mongoose";
 import action from "../handlers/action";
 import handleError from "../handlers/error";
-import { PaginatedSearchSchema } from "../validations";
-import { User } from "@/database";
+import { GetUserSchema, PaginatedSearchSchema } from "../validations";
+import { Answer, Question, User } from "@/database";
 
 export async function getUsers(
     params: PaginatedSearchParams
@@ -57,6 +57,33 @@ export async function getUsers(
             success: true,
             data: { users: users, isNext }
         }
+    } catch (error) {
+        return handleError(error as Error) as ErrorResponse
+    }
+}
+
+export async function getUser(params: GetUserParams)
+    : Promise<ActionResponse<{ user: typeof User; totalQuestions: number; totalAnswers: number; }>> {
+    const validationReault = await action({
+        params,
+        schema: GetUserSchema
+    })
+    if (validationReault instanceof Error) {
+        return handleError(validationReault) as ErrorResponse
+    }
+
+    const { userId } = params
+
+    try {
+        const user = await User.findById(userId)
+        if (!user) throw new Error("用户不存在")
+        const totalQuestions = await Question.countDocuments({ author: userId })
+        const totalAnswers = await Answer.countDocuments({ author: userId })
+        return {
+            success: true,
+            data: { user: JSON.parse(JSON.stringify(user)), totalQuestions, totalAnswers }
+        }
+
     } catch (error) {
         return handleError(error as Error) as ErrorResponse
     }
