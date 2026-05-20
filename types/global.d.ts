@@ -61,21 +61,30 @@ interface Answer {
     cratedAt: Date;
     upvotes: number;
     downvotes: number;
+    question: string;
+    createdAt?: Date;
 }
 interface User {
     _id: string;
     name: string;
     username: string;
     email: string;
-    image: string;
-    bio: string;
-    location: string;
-    portfolio: string;
-    reputation: number;
+    image?: string;
+    bio?: string;
+    location?: string;
+    portfolio?: string;
+    reputation?: number;
+    createdAt: Date
 }
 
 interface Collection {
     _id: string;
     question: Question;
     author: string | Author;
+}
+
+interface Badges {
+    GOLD: number;
+    SILVER: number;
+    BRONZE: number;
 }

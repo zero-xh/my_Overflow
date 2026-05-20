@@ -208,3 +208,15 @@ export const CreateInteractionSchema = z.object({
 export const GetUserSchema = z.object({
     userId: z.string().min(1, "用户 ID 不能为空"),
 });
+
+export const GetUserQuestionsSchema = PaginatedSearchSchema.extend({
+    userId: z.string().min(1, "用户 ID 不能为空"),
+});
+
+export const GetUsersAnswersSchema = PaginatedSearchSchema.extend({
+    userId: z.string().min(1, "用户 ID 不能为空"),
+});
+
+export const GetUserTagsSchema = z.object({
+    userId: z.string().min(1, "用户 ID 不能为空"),
+}); 
