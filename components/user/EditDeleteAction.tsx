@@ -11,8 +11,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-// import { deleteAnswer } from "@/lib/actions/answer.action";
-// import { deleteQuestion } from "@/lib/actions/question.action";
+import { deleteAnswer } from "@/lib/actions/answer.action";
+import { deleteQuestion } from "@/lib/actions/question.action";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -31,13 +31,13 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
 
   const handleDelete = async () => {
     if (type === "Question") {
-      //   await deleteQuestion({ questionId: itemId });
+        await deleteQuestion({ questionId: itemId });
 
       toast("删除问题", {
         description: "您的问题已成功删除。",
       });
     } else if (type === "Answer") {
-      //   await deleteAnswer({ answerId: itemId });
+        await deleteAnswer({ answerId: itemId });
 
       toast("删除回答", {
         description: "您的回答已成功删除。",

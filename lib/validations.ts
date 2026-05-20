@@ -219,4 +219,12 @@ export const GetUsersAnswersSchema = PaginatedSearchSchema.extend({
 
 export const GetUserTagsSchema = z.object({
     userId: z.string().min(1, "用户 ID 不能为空"),
-}); 
+});
+
+export const DeleteQuestionSchema = z.object({
+    questionId: z.string().min(1, "Question ID is required"),
+});
+
+export const DeleteAnswerSchema = z.object({
+    answerId: z.string().min(1, "Answer ID is required"),
+});
