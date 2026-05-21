@@ -5,6 +5,7 @@ import handleError from "../handlers/error";
 import { GetUserQuestionsSchema, GetUsersAnswersSchema, GetUserSchema, GetUserTagsSchema, PaginatedSearchSchema } from "../validations";
 import { Answer, Question, User } from "@/database";
 import { GetUserAnswersParams, GetUserParams, GetUserQuestionsParams, GetUserTagsParams } from "@/types/action";
+import { assignBadges } from "../utils";
 
 export async function getUsers(
     params: PaginatedSearchParams

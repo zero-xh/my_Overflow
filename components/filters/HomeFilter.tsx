@@ -6,8 +6,6 @@ import { cn } from "@/lib/utils";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/url";
 
 const filters = [
-  { name: "React", value: "React" },
-  { name: "JavaScript", value: "JavaScript" },
   { name: "最新", value: "newest" },
   { name: "热门", value: "popular" },
   { name: "未回答", value: "unanswered" },

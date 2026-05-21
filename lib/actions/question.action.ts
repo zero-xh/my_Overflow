@@ -11,15 +11,15 @@ import Vote from "@/database/vote.model";
 import Answer from "@/database/answer.model";
 import Collection from "@/database/collection.model";
 import { createInteraction } from "./interaction.action";
-import { ActionResponse, ErrorResponse, PaginatedSearchParams, Question as QuestionType } from "@/types/global";
-import { CreateQuestionParams, DeleteQuestionParams, EditQuestionParams, GetQuestionParams, IncrementViewsParams } from "@/types/action";
+import { CreateQuestionParams, DeleteQuestionParams, EditQuestionParams, GetQuestionParams, IncrementViewsParams, RecommendationParams } from "@/types/action";
 import { revalidatePath } from "next/cache";
 import ROUTES from "@/constants/routes";
 import dbConnect from "../mongoose";
+import { Interaction } from "@/database";
 
 export async function createQuestion(
     params: CreateQuestionParams
-): Promise<ActionResponse<QuestionType>> {
+): Promise<ActionResponse<Question>> {
     const validationResult = await action({
         params,
         schema: AskQuestionSchema,
@@ -78,7 +78,7 @@ export async function createQuestion(
 }
 
 export async function editQuestion(params: EditQuestionParams
-): Promise<ActionResponse<QuestionType>> {
+): Promise<ActionResponse<Question>> {
     const validationResult = await action({
         params,
         schema: EditQuestionSchema,
@@ -176,6 +176,62 @@ export async function getQuestion(params: GetQuestionParams
     } catch (error) {
         return handleError(error) as ErrorResponse
     }
+}
+
+export async function getRecommendedQuestions({
+    userId,
+    query,
+    skip,
+    limit,
+}: RecommendationParams) {
+    const interactions = await Interaction.find({
+        user: new mongoose.Types.ObjectId(userId),
+        actionType: "question",
+        action: { $in: ["view", "upvote", "bookmark", "post"] },
+    })
+        .sort({ createdAt: -1 })
+        .limit(50)
+        .lean();
+
+    const interactedQuestionIds = interactions.map((i) => i.actionId);
+
+    const interactedQuestions = await Question.find({
+        _id: { $in: interactedQuestionIds },
+    }).select("tags");
+
+    const allTags = interactedQuestions.flatMap((q) =>
+        q.tags.map((tag: mongoose.Types.ObjectId) => tag.toString())
+    );
+
+    const uniqueTagIds = [...new Set(allTags)];
+
+    const recommendedQuery: QueryFilter<typeof Question> = {
+        _id: { $nin: interactedQuestionIds },
+        author: { $ne: new mongoose.Types.ObjectId(userId) },
+        tags: { $in: uniqueTagIds.map((id) => new mongoose.Types.ObjectId(id)) },
+    };
+
+    if (query) {
+        recommendedQuery.$or = [
+            { title: { $regex: query, $options: "i" } },
+            { content: { $regex: query, $options: "i" } },
+        ];
+    }
+
+    const total = await Question.countDocuments(recommendedQuery);
+
+    const questions = await Question.find(recommendedQuery)
+        .populate("tags", "name")
+        .populate("author", "name image")
+        .sort({ upvotes: -1, views: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean();
+
+    return {
+        questions: JSON.parse(JSON.stringify(questions)),
+        isNext: total > skip + questions.length,
+    };
 }
 
 export async function getQuestions(
