@@ -21,7 +21,6 @@ import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import ROUTES from "@/constants/routes";
-import { Question } from "@/types/global";
 
 const Editor = dynamic(() => import("../editor"), {
   ssr: false,

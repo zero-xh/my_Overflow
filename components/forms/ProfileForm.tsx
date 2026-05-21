@@ -4,25 +4,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import ROUTES from "@/constants/routes";
-import { toast } from "@/hooks/use-toast";
 import { updateUser } from "@/lib/actions/user.action";
 import { ProfileSchema } from "@/lib/validations";
 
 import { Textarea } from "../ui/textarea";
+import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import { toast } from "sonner";
 
 interface Params {
   user: User;
@@ -50,148 +43,132 @@ const ProfileForm = ({ user }: Params) => {
       });
 
       if (result.success) {
-        toast({
-          title: "Success",
+        toast("修改成功", {
           description: "Your profile has been updated successfully.",
+          position: "top-center",
         });
 
         router.push(ROUTES.PROFILE(user._id));
       } else {
-        toast({
-          title: `Error (${result.status})`,
+        toast("修改失败", {
           description: result.error?.message,
-          variant: "destructive",
+          position: "top-center",
         });
       }
     });
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleUpdateProfile)}
-        className="mt-9 flex w-full flex-col gap-9"
-      >
-        <FormField
-          control={form.control}
+    <form
+      onSubmit={form.handleSubmit(handleUpdateProfile)}
+      className="mt-9 flex w-full flex-col gap-9"
+    >
+      <FieldGroup>
+        <Controller
           name="name"
-          render={({ field }) => (
-            <FormItem className="space-y-3.5">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Name <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"
-                  placeholder="Your Name"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field className="space-y-3.5">
+              <FieldLabel className="paragraph-semibold text-dark400_light800">
+                姓名<span className="text-primary-500">*</span>
+              </FieldLabel>
+              <Input
+                {...field}
+                placeholder="姓名"
+                className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-14 border"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
-
-        <FormField
-          control={form.control}
+        <Controller
           name="username"
-          render={({ field }) => (
-            <FormItem className="space-y-3.5">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Username <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"
-                  placeholder="Your username"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field className="space-y-3.5">
+              <FieldLabel className="paragraph-semibold text-dark400_light800">
+                用户名<span className="text-primary-500">*</span>
+              </FieldLabel>
+              <Input
+                {...field}
+                placeholder="用户名"
+                className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-14 border"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
-
-        <FormField
-          control={form.control}
+        <Controller
           name="portfolio"
-          render={({ field }) => (
-            <FormItem className="space-y-3.5">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Portfolio Link
-              </FormLabel>
-              <FormControl>
-                <Input
-                  type="url"
-                  className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"
-                  placeholder="Your Portfolio link"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field className="space-y-3.5">
+              <FieldLabel className="paragraph-semibold text-dark400_light800">
+                作品链接
+              </FieldLabel>
+              <Input
+                {...field}
+                type="url"
+                placeholder="您的作品集链接"
+                className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-14 border"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
-
-        <FormField
-          control={form.control}
+        <Controller
           name="location"
-          render={({ field }) => (
-            <FormItem className="space-y-3.5">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Location <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"
-                  placeholder="Where do you live?"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
           control={form.control}
-          name="bio"
-          render={({ field }) => (
-            <FormItem className="space-y-3.5">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Bio <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <Textarea
-                  rows={5}
-                  className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"
-                  placeholder="What's special about you?"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field className="space-y-3.5">
+              <FieldLabel className="paragraph-semibold text-dark400_light800">
+                位置
+              </FieldLabel>
+              <Input
+                {...field}
+                placeholder="当前定位"
+                className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-14 border"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
-
-        <div className="mt-7 flex justify-end">
-          <Button
-            type="submit"
-            className="primary-gradient w-fit"
-            disabled={isPending}
-          >
-            {isPending ? (
-              <>
-                <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-                Submitting...
-              </>
-            ) : (
-              <>Submit</>
-            )}
-          </Button>
-        </div>
-      </form>
-    </Form>
+        <Controller
+          name="bio"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field className="space-y-3.5">
+              <FieldLabel className="paragraph-semibold text-dark400_light800">
+                个人简介<span className="text-primary-500">*</span>
+              </FieldLabel>
+              <Textarea
+                rows={5}
+                className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"
+                placeholder="添加个人简介"
+                {...field}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+      </FieldGroup>
+      <div className="mt-7 flex justify-end">
+        <Button
+          type="submit"
+          className="primary-gradient w-fit text-light400_light800"
+          disabled={isPending}
+        >
+          {isPending ? (
+            <>
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+              提交中
+            </>
+          ) : (
+            <>提交</>
+          )}
+        </Button>
+      </div>
+    </form>
   );
 };
 

@@ -225,3 +225,37 @@ export const DeleteQuestionSchema = z.object({
 export const DeleteAnswerSchema = z.object({
     answerId: z.string().min(1, "Answer ID is required"),
 });
+
+export const ProfileSchema = z.object({
+    name: z
+        .string()
+        .min(3, {
+            message: "名字不能少于3个字符",
+        })
+        .max(130, { message: "名字不能超过130个字符" }),
+    username: z
+        .string()
+        .min(3, { message: "用户名不能少于3个字符" }),
+    portfolio: z.string().optional(),
+    location: z.string().optional(),
+    bio: z.string().min(3, {
+        message: "个人简介必须至少有3个字符。",
+    }),
+});
+
+export const UpdateUserSchema = z.object({
+    name: z
+        .string()
+        .min(3, {
+            message: "名字不能少于3个字符",
+        })
+        .max(130, { message: "名字不能超过130个字符" }),
+    username: z
+        .string()
+        .min(3, { message: "用户名不能少于3个字符" }),
+    portfolio: z.string().optional(),
+    location: z.string().optional(),
+    bio: z.string().min(3, {
+        message: "个人简介必须至少有3个字符。",
+    }),
+});
