@@ -178,7 +178,9 @@ const ProfilePage = async ({ params, searchParams }: RouteParams) => {
               )}
             />
 
-            <Pagination page={page} isNext={hasMoreQuestions || false} />
+            {questions?.length > 0 && (
+              <Pagination page={page} isNext={hasMoreQuestions || false} />
+            )}
           </TabsContent>
 
           <TabsContent value="answers" className="flex w-full flex-col gap-6">
@@ -205,7 +207,9 @@ const ProfilePage = async ({ params, searchParams }: RouteParams) => {
               )}
             />
 
-            <Pagination page={page} isNext={hasMoreAnswers || false} />
+            {answers?.length > 0 && (
+              <Pagination page={page} isNext={hasMoreAnswers || false} />
+            )}
           </TabsContent>
         </Tabs>
 

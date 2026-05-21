@@ -22,9 +22,7 @@ const Collections = async ({ searchParams }: SearchParams) => {
     filter: filter || "",
   });
 
-  const { collection, isNext } = data || {};
-
-  console.log("Collection data:", success, data, error);
+  const { collection=[], isNext } = data || {};
 
   return (
     <>
@@ -58,7 +56,9 @@ const Collections = async ({ searchParams }: SearchParams) => {
         )}
       />
 
-      <Pagination page={page} isNext={isNext || false} />
+      {collection.length > 0 && (
+        <Pagination page={page} isNext={isNext || false} />
+      )}
     </>
   );
 };

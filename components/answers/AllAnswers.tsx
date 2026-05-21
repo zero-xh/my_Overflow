@@ -15,7 +15,7 @@ interface Props extends ActionResponse<Answer[]> {
 const AllAnswers = ({
   page,
   isNext,
-  data,
+  data = [],
   success,
   error,
   totalAnswers,
@@ -39,11 +39,11 @@ const AllAnswers = ({
         success={success}
         empty={EMPTY_ANSWERS}
         render={(answers) =>
-            answers.map((answer) => <AnswerCard key={answer._id} {...answer} />)
+          answers.map((answer) => <AnswerCard key={answer._id} {...answer} />)
         }
       />
 
-      <Pagination page={page} isNext={isNext} />
+      {data?.length > 0 && <Pagination page={page} isNext={isNext} />}
     </div>
   );
 };

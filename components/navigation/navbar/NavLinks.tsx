@@ -25,6 +25,10 @@ const NavLinks = ({
           if (userId) item.route = `${item.route}/${userId}`;
           else return null;
         }
+        if (item.route === "/collection") {
+          if (userId) item.route = `${item.route}`;
+          else return null;
+        }
         const LinkComponent = (
           <Link
             href={item.route}

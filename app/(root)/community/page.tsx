@@ -18,9 +18,7 @@ const Community = async ({ searchParams }: RouteParams) => {
     filter,
   });
 
-  const { users, isNext } = data || {};
-
-  console.log(users);
+  const { users = [], isNext } = data || {};
 
   return (
     <div>
@@ -62,7 +60,7 @@ const Community = async ({ searchParams }: RouteParams) => {
         )}
       />
 
-      <Pagination page={page} isNext={isNext || false} />
+      {users?.length > 0 && <Pagination page={page} isNext={isNext || false} />}
     </div>
   );
 };

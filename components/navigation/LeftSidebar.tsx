@@ -13,7 +13,7 @@ const LeftSidebar = async () => {
     <section
       className="custom-scrollbar background-light900_dark200 
     light-border sticky left-0 top-0 flex h-screen flex-col justify-between 
-    overflow-y-auto border-r p-6 pt-6 shadow-light-300 dark:shadow-none 
+    overflow-y-auto border-r p-6 pt-36 shadow-light-300 dark:shadow-none 
     max-sm:hidden lg:w-66.5"
     >
       <div className="flex flex-1 flex-col gap-6">
@@ -69,9 +69,11 @@ const LeftSidebar = async () => {
                   alt="Account"
                   width={20}
                   height={20}
-                  className="invert-colors lg:hidden"
+                  className=" invert-colors lg:hidden"
                 />
-                <span className=" max-lg:hidden">注册</span>
+                <span className="primary-text-gradient max-lg:hidden">
+                  注册
+                </span>
               </Link>
             </Button>
           </>

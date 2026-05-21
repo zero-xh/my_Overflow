@@ -20,8 +20,7 @@ const Home = async ({ searchParams }: RouteParams) => {
     filter: filter || "",
   });
 
-  const { questions, isNext } = data || {};
-
+  const { questions = [], isNext } = data || {};
   return (
     <>
       <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -60,7 +59,9 @@ const Home = async ({ searchParams }: RouteParams) => {
           </div>
         )}
       />
-      <Pagination page={page} isNext={isNext || false} />
+      {questions?.length > 0 && (
+        <Pagination page={page} isNext={isNext || false} />
+      )}
     </>
   );
 };
