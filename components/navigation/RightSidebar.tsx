@@ -62,8 +62,8 @@ const RightSidebar = async () => {
         <DataRenderer
           data={tags}
           empty={{
-            title: "No tags found",
-            message: "No tags have been created yet.",
+            title: "暂无热门话题标签",
+            message: "快去社区看看有没有感兴趣的话题标签吧！",
           }}
           success={tagSuccess}
           error={tagError}

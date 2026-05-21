@@ -37,7 +37,7 @@ const Home = async ({ searchParams }: RouteParams) => {
         <LocalSearch
           route="/"
           imgSrc="/icons/search.svg"
-          placeholder="Search questions..."
+          placeholder="搜索问题"
           otherClasses="fles-1"
         />
         <CommonFilter

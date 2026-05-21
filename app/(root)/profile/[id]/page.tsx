@@ -113,7 +113,7 @@ const ProfilePage = async ({ params, searchParams }: RouteParams) => {
 
               <ProfileLink
                 imgUrl="/icons/calendar.svg"
-                title={dayjs(user.createdAt).format("MMMM YYYY")}
+                title={dayjs(user.createdAt).format("YYYY-MM")}
               />
             </div>
 
@@ -129,7 +129,7 @@ const ProfilePage = async ({ params, searchParams }: RouteParams) => {
           {loggedInUser?.user?.id === id && (
             <Link href="/profile/edit">
               <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-12 min-w-44 px-4 py-3">
-                Edit Profile
+                编辑资料
               </Button>
             </Link>
           )}
@@ -145,12 +145,12 @@ const ProfilePage = async ({ params, searchParams }: RouteParams) => {
 
       <section className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-2">
-          <TabsList className="background-light800_dark400 min-h-10.5 p-1">
+          <TabsList className=" min-h-10.5 p-1">
             <TabsTrigger value="top-posts" className="tab">
-              Top Posts
+              我的提问
             </TabsTrigger>
             <TabsTrigger value="answers" className="tab">
-              Answers
+              我的回答
             </TabsTrigger>
           </TabsList>
 
@@ -210,7 +210,7 @@ const ProfilePage = async ({ params, searchParams }: RouteParams) => {
         </Tabs>
 
         <div className="flex w-full min-w-62.5 flex-1 flex-col max-lg:hidden">
-          <h3 className="h3-bold text-dark200_light900">Top Tags</h3>
+          <h3 className="h3-bold text-dark200_light900">热门标签</h3>
 
           <div className="mt-7 flex flex-col gap-4">
             <DataRenderer

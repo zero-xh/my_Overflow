@@ -17,13 +17,13 @@ const Navbar = async () => {
           src="/images/site-logo.svg"
           width={23}
           height={23}
-          alt="DevFlow Logo"
+          alt="开发者 Logo"
         />
         <p className="h2-bold text-dark-100 dark:text-light-900 max-sm:hidden">
-          Dev<span className="text-primary-500">Flow</span>
+          开发者<span className="text-primary-500">社区</span>
         </p>
       </Link>
-      <p>Global Search</p>
+      {/* <p>Global Search</p> */}
       <div className="flex-between gap-5">
         <Theme />
         {session?.user?.id && (

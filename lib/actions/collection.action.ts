@@ -10,7 +10,7 @@ import action from "../handlers/action";
 import handleError from "../handlers/error";
 import {
     CollectionBaseSchema,
-    PaginatedSearchSchema,
+    PaginatedSearchParamsSchema,
 } from "../validations";
 import { CollectionBaseParams } from "@/types/action";
 
@@ -108,7 +108,7 @@ export async function getSavedQuestions(
 ): Promise<ActionResponse<{ collection: Collection[]; isNext: boolean }>> {
     const validationResult = await action({
         params,
-        schema: PaginatedSearchSchema,
+        schema: PaginatedSearchParamsSchema,
         authorize: true,
     });
 
@@ -176,7 +176,7 @@ export async function getSavedQuestions(
             });
         }
 
-        const [totalCount] = await Collection.aggregate([
+        const [totalCount = { count: 0 }] = await Collection.aggregate([
             ...pipeline,
             { $count: "count" },
         ]);

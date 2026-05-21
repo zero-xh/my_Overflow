@@ -23,7 +23,7 @@ const StatsCard = ({ imgUrl, value, title }: StatsCardProps) => {
 interface Props {
   totalQuestions: number;
   totalAnswers: number;
-  badges: BadgeCounts;
+  badges: Badges;
   reputationPoints: number;
 }
 
@@ -36,7 +36,7 @@ const Stats = ({
   return (
     <div className="mt-10">
       <h4 className="h3-semibold text-dark200_light900">
-        Stats{" "}
+        数据统计{" "}
         <span className="small-semibold primary-text-gradient">
           {formatNumber(reputationPoints)}
         </span>
@@ -48,33 +48,33 @@ const Stats = ({
             <p className="paragraph-semibold text-dark200_light900">
               {formatNumber(totalQuestions)}
             </p>
-            <p className="body-medium text-dark400_light700">Questions</p>
+            <p className="body-medium text-dark400_light700">提问数</p>
           </div>
 
           <div>
             <p className="paragraph-semibold text-dark200_light900">
               {formatNumber(totalAnswers)}
             </p>
-            <p className="body-medium text-dark400_light700">Answers</p>
+            <p className="body-medium text-dark400_light700">回答数</p>
           </div>
         </div>
 
         <StatsCard
           imgUrl="/icons/gold-medal.svg"
           value={badges.GOLD}
-          title="Gold Badges"
+          title="金牌徽章"
         />
 
         <StatsCard
           imgUrl="/icons/silver-medal.svg"
           value={badges.SILVER}
-          title="Silver Badges"
+          title="银牌徽章"
         />
 
         <StatsCard
           imgUrl="/icons/bronze-medal.svg"
           value={badges.BRONZE}
-          title="Bronze Badges"
+          title="铜牌徽章"
         />
       </div>
     </div>

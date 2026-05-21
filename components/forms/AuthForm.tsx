@@ -9,15 +9,14 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { z, ZodType } from "zod";
-import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ROUTES from "@/constants/routes";
-import { ActionResponse } from "@/types/global";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Button } from "../ui/button";
 
 const FIELD_LABELS: Record<string, string> = {
   email: "邮箱地址",
@@ -64,7 +63,7 @@ const AuthForm = <T extends FieldValues>({
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-      {buttonText}
+      {/* {buttonText} */}
       {Object.keys(defaultValues).map((field) => (
         <Controller
           key={field}
@@ -92,7 +91,7 @@ const AuthForm = <T extends FieldValues>({
       <Button
         disabled={form.formState.isSubmitting}
         type="submit"
-        className="primary-gradient paragraph-medium min-h-12 w-full rounded-2 px-4 py-3 font-inter text-light-900!"
+        className="cursor-pointer primary-gradient paragraph-medium min-h-12 w-full rounded-2 px-4 py-3 font-inter text-light-900!"
       >
         {form.formState.isSubmitting
           ? formType === "SIGN_IN"
@@ -102,17 +101,17 @@ const AuthForm = <T extends FieldValues>({
       </Button>
       {formType === "SIGN_IN" ? (
         <p>
-          Don&apos;t have an account?{" "}
+          没有账号?{" "}
           <Link
             href={ROUTES.SIGN_UP}
             className="paragraph-semibold primary-text-gradient"
           >
-            Sign up
+            注册
           </Link>
         </p>
       ) : (
         <p>
-          已经有账户?{" "}
+          已经有账号?{" "}
           <Link
             href={ROUTES.SIGN_IN}
             className="paragraph-semibold primary-text-gradient"

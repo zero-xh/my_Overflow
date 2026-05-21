@@ -58,11 +58,11 @@ const CommonFilter = ({
           aria-label="Filter options"
         >
           <div className="line-clamp-1 flex-1 text-left">
-            <SelectValue placeholder="Select a filter" />
+            <SelectValue placeholder="选择筛选分类" />
           </div>
         </SelectTrigger>
 
-        <SelectContent>
+        <SelectContent position="popper">
           <SelectGroup>
             {filters.map((item) => (
               <SelectItem key={item.value} value={item.value}>

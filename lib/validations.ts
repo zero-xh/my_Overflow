@@ -24,10 +24,7 @@ export const SignUpSchema = z.object({
     name: z
         .string()
         .min(1, { message: "姓名不能为空" })
-        .max(50, { message: "姓名长度不能超过50个字符" })
-        .regex(/^[a-zA-Z\s]+$/, {
-            message: "姓名只能包含字母和空格",
-        }),
+        .max(50, { message: "姓名长度不能超过50个字符" }),
 
     email: z
         .email({ message: "请输入有效的邮箱地址" }),
@@ -132,7 +129,7 @@ export const GetQuestionSchema = z.object({
     questionId: z.string().min(1, { message: "问题 ID 不能为空" }),
 });
 
-export const PaginatedSearchSchema = z.object({
+export const PaginatedSearchParamsSchema = z.object({
     page: z.number().int().positive().default(1),
     pageSize: z.number().int().positive().default(10),
     query: z.string().optional(),
@@ -140,7 +137,7 @@ export const PaginatedSearchSchema = z.object({
     sort: z.string().optional(),
 });
 
-export const GetTagQuestionsSchema = PaginatedSearchSchema.extend({
+export const GetTagQuestionsSchema = PaginatedSearchParamsSchema.extend({
     tagId: z.string().min(1, { message: "标签 ID 不能为空" }),
 });
 
@@ -152,7 +149,7 @@ export const AnswerServerSchema = AnswerSchema.extend({
     questionId: z.string().min(1, { message: "问题 ID 不能为空" }),
 });
 
-export const GetAnswersSchema = PaginatedSearchSchema.extend({
+export const GetAnswersSchema = PaginatedSearchParamsSchema.extend({
     questionId: z.string().min(1, { message: "问题 ID 不能为空" }),
 });
 
@@ -209,11 +206,11 @@ export const GetUserSchema = z.object({
     userId: z.string().min(1, "用户 ID 不能为空"),
 });
 
-export const GetUserQuestionsSchema = PaginatedSearchSchema.extend({
+export const GetUserQuestionsSchema = PaginatedSearchParamsSchema.extend({
     userId: z.string().min(1, "用户 ID 不能为空"),
 });
 
-export const GetUsersAnswersSchema = PaginatedSearchSchema.extend({
+export const GetUsersAnswersSchema = PaginatedSearchParamsSchema.extend({
     userId: z.string().min(1, "用户 ID 不能为空"),
 });
 

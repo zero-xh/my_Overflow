@@ -1,6 +1,6 @@
 "use server";
 
-import { AskQuestionSchema, DeleteQuestionSchema, EditQuestionSchema, GetQuestionSchema, PaginatedSearchSchema } from "../validations";
+import { AskQuestionSchema, DeleteQuestionSchema, EditQuestionSchema, GetQuestionSchema, PaginatedSearchParamsSchema } from "../validations";
 import handleError from "../handlers/error";
 import action from "../handlers/action";
 import mongoose, { QueryFilter } from "mongoose";
@@ -239,7 +239,7 @@ export async function getQuestions(
 ): Promise<ActionResponse<{ questions: QuestionType[]; isNext: boolean }>> {
     const validationResult = await action({
         params,
-        schema: PaginatedSearchSchema,
+        schema: PaginatedSearchParamsSchema,
     })
     if (validationResult instanceof Error) {
         return handleError(validationResult) as ErrorResponse;

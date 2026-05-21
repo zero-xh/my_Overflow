@@ -2,7 +2,7 @@
 import { PipelineStage, QueryFilter, Types } from "mongoose";
 import action from "../handlers/action";
 import handleError from "../handlers/error";
-import { GetUserQuestionsSchema, GetUsersAnswersSchema, GetUserSchema, GetUserTagsSchema, PaginatedSearchSchema } from "../validations";
+import { GetUserQuestionsSchema, GetUsersAnswersSchema, GetUserSchema, GetUserTagsSchema, PaginatedSearchParamsSchema } from "../validations";
 import { Answer, Question, User } from "@/database";
 import { GetUserAnswersParams, GetUserParams, GetUserQuestionsParams, GetUserTagsParams } from "@/types/action";
 import { assignBadges } from "../utils";
@@ -12,7 +12,7 @@ export async function getUsers(
 ): Promise<ActionResponse<{ users: User[]; isNext: boolean; }>> {
     const validationReault = await action({
         params,
-        schema: PaginatedSearchSchema
+        schema: PaginatedSearchParamsSchema
     })
 
     if (validationReault instanceof Error) {

@@ -1,4 +1,4 @@
-import { GetTagQuestionsSchema, PaginatedSearchSchema } from "../validations";
+import { GetTagQuestionsSchema, PaginatedSearchParamsSchema } from "../validations";
 import action from "../handlers/action";
 import handleError from "../handlers/error";
 import { QueryFilter } from "mongoose";
@@ -9,7 +9,7 @@ import dbConnect from "../mongoose";
 export async function getTags(params: PaginatedSearchParams): Promise<ActionResponse<{ tags: Tag[]; isNext: boolean }>> {
     const validationResult = await action({
         params,
-        schema: PaginatedSearchSchema,
+        schema: PaginatedSearchParamsSchema,
     });
 
     if (validationResult instanceof Error) {

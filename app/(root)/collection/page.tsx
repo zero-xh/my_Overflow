@@ -24,6 +24,8 @@ const Collections = async ({ searchParams }: SearchParams) => {
 
   const { collection, isNext } = data || {};
 
+  console.log("Collection data:", success, data, error);
+
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">收藏</h1>
@@ -32,7 +34,7 @@ const Collections = async ({ searchParams }: SearchParams) => {
         <LocalSearch
           route={ROUTES.COLLECTION}
           imgSrc="/icons/search.svg"
-          placeholder="Search questions..."
+          placeholder="搜索收藏的问题"
           otherClasses="flex-1"
         />
 

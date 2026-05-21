@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
 
 export interface ICollection {
-    userId: mongoose.Types.ObjectId
-    name: string
-    description?: string
-    questions: mongoose.Types.ObjectId[]
+    author: mongoose.Types.ObjectId
+    question: mongoose.Types.ObjectId
 }
 
 export interface ICollectionDoc extends ICollection, Document { }
@@ -16,6 +14,6 @@ const CollectionSchema = new mongoose.Schema<ICollection>(
     { timestamps: true }
 );
 
-const Collection = mongoose.models.Collection || mongoose.model<ICollection>("Collection", CollectionSchema)
+const Collection = mongoose.models?.Collection || mongoose.model<ICollection>("Collection", CollectionSchema)
 
 export default Collection
