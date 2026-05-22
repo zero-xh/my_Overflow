@@ -64,7 +64,7 @@ const AnswerCard = ({
 
             <p className="small-regular text-light400_light500 ml-0.5 mt-0.5 line-clamp-1">
               <span className="max-sm:hidden"> • </span>
-              answered {getTimeStamp(createdAt)}
+              {getTimeStamp(createdAt)}回答
             </p>
           </Link>
         </div>

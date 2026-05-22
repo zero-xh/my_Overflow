@@ -142,7 +142,7 @@ export const GetTagQuestionsSchema = PaginatedSearchParamsSchema.extend({
 });
 
 export const AnswerSchema = z.object({
-    content: z.string().min(100, { message: "回答内容不能少于100个字符" }),
+    content: z.string().min(50, { message: "回答内容不能少于50个字符" }),
 });
 
 export const AnswerServerSchema = AnswerSchema.extend({
@@ -155,7 +155,7 @@ export const GetAnswersSchema = PaginatedSearchParamsSchema.extend({
 
 export const AIAnswerSchema = z.object({
     question: z.string().min(5, { message: "问题不能为空" }).max(130, { message: "问题不能超过130个字符" }),
-    content: z.string().min(100, { message: "回答内容不能少于100个字符" }),
+    content: z.string().min(50, { message: "回答内容不能少于50个字符" }),
     userAnswer: z.string().optional()
 })
 

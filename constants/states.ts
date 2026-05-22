@@ -39,10 +39,6 @@ export const EMPTY_TAGS = {
 export const EMPTY_ANSWERS = {
     title: "暂无回答",
     message: "还没有人回答，快来分享你的精彩见解吧～",
-    button: {
-        text: "回答",
-        href: ROUTES.HOME,
-    },
 };
 
 export const EMPTY_COLLECTIONS = {

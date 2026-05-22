@@ -125,14 +125,14 @@ const QuestionDetails = async ({ params, searchParams }: RouteParams) => {
         <Metric
           imgUrl="/icons/clock.svg"
           alt="clock icon"
-          value={` asked ${getTimeStamp(new Date(createdAt))}`}
+          value={`发布于 ${getTimeStamp(new Date(createdAt))}`}
           title=""
           textStyles="small-regular text-dark400_light700"
         />
         <Metric
           imgUrl="/icons/message.svg"
           alt="message icon"
-          value={answers}
+          value={`有 ${answers} 个回答`}
           title=""
           textStyles="small-regular text-dark400_light700"
         />
