@@ -6,8 +6,8 @@ import { use, useState } from "react";
 
 import { formatNumber } from "@/lib/utils";
 import { toast } from "sonner";
-import { HasVotedResponse } from "@/types/action";
 import { createVote } from "@/lib/actions/vote.action";
+import type { HasVotedResponse } from "@/types/action";
 
 interface Params {
   targetType: "question" | "answer";

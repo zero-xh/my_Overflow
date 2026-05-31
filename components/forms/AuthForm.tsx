@@ -26,7 +26,7 @@ const FIELD_LABELS: Record<string, string> = {
 };
 
 interface AuthFormProps<T extends FieldValues> {
-  schema: ZodType<T>;
+  schema: z.ZodSchema<T>;
   defaultValues: T;
   onSubmit: (data: T) => Promise<ActionResponse>;
   formType: "SIGN_IN" | "SIGN_UP";
@@ -39,8 +39,9 @@ const AuthForm = <T extends FieldValues>({
   onSubmit,
 }: AuthFormProps<T>) => {
   const router = useRouter();
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const form = useForm<T>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(schema as any),
     defaultValues: defaultValues as DefaultValues<T>,
   });
 

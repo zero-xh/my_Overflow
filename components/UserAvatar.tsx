@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 interface Props {
   id: string;
-  name: string;
+  name?: string | null;
   imageUrl?: string | null;
   className?: string;
   fallbackClassName?: string;
@@ -19,18 +19,20 @@ const UserAvatar = ({
   fallbackClassName,
 }: Props) => {
   const initials = name
-    .split(" ")
-    .map((word: string) => word[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
+    ? name
+        .split(" ")
+        .map((word: string) => word[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "?";
   return (
     <Link href={ROUTES.PROFILE(id)}>
       <Avatar className={className}>
         {imageUrl ? (
           <Image
             src={imageUrl}
-            alt={name}
+            alt={name || "用户头像"}
             className="w-full h-full object-cover rounded-full"
             width={36}
             height={36}

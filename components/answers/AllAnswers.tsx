@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AnswerFilters } from "@/constants/filters";
 import { EMPTY_ANSWERS } from "@/constants/states";
 
@@ -6,7 +7,7 @@ import DataRenderer from "../DataRenderer";
 import CommonFilter from "../filters/CommonFilter";
 import Pagination from "../Pagination";
 
-interface Props extends ActionResponse<Answer[]> {
+interface Props extends ActionResponse<any> {
   page: number;
   isNext: boolean;
   totalAnswers: number;
@@ -39,7 +40,8 @@ const AllAnswers = ({
         success={success}
         empty={EMPTY_ANSWERS}
         render={(answers) =>
-          answers.map((answer) => <AnswerCard key={answer._id} {...answer} />)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          answers.map((answer: any) => <AnswerCard key={answer._id} {...answer} />)
         }
       />
 

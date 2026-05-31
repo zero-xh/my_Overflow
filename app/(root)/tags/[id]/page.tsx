@@ -4,8 +4,6 @@ import LocalSearch from "@/components/search/LocalSearch";
 import ROUTES from "@/constants/routes";
 import { EMPTY_QUESTION } from "@/constants/states";
 import { getTagQuestions } from "@/lib/actions/tag.action";
-import { RouteParams } from "@/types/global";
-import React from "react";
 
 const page = async ({ params, searchParams }: RouteParams) => {
   const { id } = await params;
@@ -43,7 +41,7 @@ const page = async ({ params, searchParams }: RouteParams) => {
         render={(questions) => (
           <div className="mt-10 flex w-full flex-col gap-6">
             {questions.map((question) => (
-              <QuestionCard key={question._id} question={question} />
+              <QuestionCard key={question._id.toString()} question={question} />
             ))}
           </div>
         )}

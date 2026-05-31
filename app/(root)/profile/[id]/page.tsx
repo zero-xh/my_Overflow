@@ -63,8 +63,8 @@ const ProfilePage = async ({ params, searchParams }: RouteParams) => {
     error: userAnswersError,
   } = await getUserAnswers({
     userId: id,
-    page: Number(page) || 1,
-    pageSize: Number(pageSize) || 10,
+    page: Number(page) || undefined,
+    pageSize: Number(pageSize) || undefined,
   });
 
   const {
@@ -167,10 +167,10 @@ const ProfilePage = async ({ params, searchParams }: RouteParams) => {
                 <div className="flex w-full flex-col gap-6">
                   {questions.map((question) => (
                     <QuestionCard
-                      key={question._id}
+                      key={question._id.toString()}
                       question={question}
                       showActionBtns={
-                        loggedInUser?.user?.id === question.author._id
+                        loggedInUser?.user?.id === question.author._id.toString()
                       }
                     />
                   ))}

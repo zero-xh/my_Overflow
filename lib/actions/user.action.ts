@@ -6,6 +6,7 @@ import { GetUserQuestionsSchema, GetUsersAnswersSchema, GetUserSchema, GetUserTa
 import { Answer, Question, User } from "@/database";
 import { GetUserAnswersParams, GetUserParams, GetUserQuestionsParams, GetUserTagsParams } from "@/types/action";
 import { assignBadges } from "../utils";
+import type { IQuestionDoc } from "@/database/question.model";
 
 export async function getUsers(
     params: PaginatedSearchParams
@@ -65,7 +66,7 @@ export async function getUsers(
 }
 
 export async function getUser(params: GetUserParams)
-    : Promise<ActionResponse<{ user: typeof User; totalQuestions: number; totalAnswers: number; }>> {
+    : Promise<ActionResponse<{ user: User; totalQuestions: number; totalAnswers: number; }>> {
     const validationReault = await action({
         params,
         schema: GetUserSchema
@@ -93,7 +94,7 @@ export async function getUser(params: GetUserParams)
 
 export async function getUserQuestions(params: GetUserQuestionsParams): Promise<
     ActionResponse<{
-        questions: Question[];
+        questions: IQuestionDoc[];
         isNext: boolean;
     }>
 > {

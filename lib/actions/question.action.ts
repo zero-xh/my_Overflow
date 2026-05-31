@@ -16,6 +16,7 @@ import { revalidatePath } from "next/cache";
 import ROUTES from "@/constants/routes";
 import dbConnect from "../mongoose";
 import { Interaction } from "@/database";
+import { after } from "next/server";
 
 export async function createQuestion(
     params: CreateQuestionParams
@@ -156,7 +157,7 @@ export async function editQuestion(params: EditQuestionParams
 }
 
 export async function getQuestion(params: GetQuestionParams
-): Promise<ActionResponse<IQuestionDoc>> {
+): Promise<ActionResponse<Question>> {
     const validationResult = await action({
         params,
         schema: GetQuestionSchema,
@@ -236,7 +237,7 @@ export async function getRecommendedQuestions({
 
 export async function getQuestions(
     params: PaginatedSearchParams
-): Promise<ActionResponse<{ questions: QuestionType[]; isNext: boolean }>> {
+): Promise<ActionResponse<{ questions: IQuestionDoc[]; isNext: boolean }>> {
     const validationResult = await action({
         params,
         schema: PaginatedSearchParamsSchema,

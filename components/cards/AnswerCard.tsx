@@ -10,7 +10,18 @@ import UserAvatar from "../UserAvatar";
 import Votes from "../votes/Votes";
 import EditDeleteAction from "../user/EditDeleteAction";
 
-interface Props extends Answer {
+interface Props {
+  _id: string;
+  content: string;
+  author: {
+    _id: string;
+    name: string;
+    image?: string;
+  };
+  question: string;
+  upvotes: number;
+  downvotes: number;
+  createdAt?: Date | string;
   containerClasses?: string;
   showReadMore?: boolean;
   showActionBtns?: boolean;
@@ -64,7 +75,7 @@ const AnswerCard = ({
 
             <p className="small-regular text-light400_light500 ml-0.5 mt-0.5 line-clamp-1">
               <span className="max-sm:hidden"> • </span>
-              {getTimeStamp(createdAt)}回答
+              {createdAt ? `${getTimeStamp(createdAt)}回答` : ""}
             </p>
           </Link>
         </div>

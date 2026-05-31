@@ -1,6 +1,5 @@
 "use server";
 import mongoose from "mongoose";
-import { ActionResponse, ErrorResponse } from "@/types/global";
 import handleError from "../handlers/error";
 import { SignUpSchema, SignInSchema } from "../validations";
 import action from "../handlers/action";
@@ -9,6 +8,7 @@ import bcrypt from "bcryptjs";
 import Account from "@/database/account.model";
 import { signIn } from "@/auth";
 import { NotFoundError } from "../http-errors";
+import type { AuthCredentials } from "@/types/action";
 
 export async function signUpWithCredentials(
     params: AuthCredentials

@@ -1,15 +1,16 @@
 "use server";
 
 import mongoose from "mongoose";
-import { CreateAnswerParams, GetAnswersParams } from "@/types/action";
-import { ActionResponse, ErrorResponse } from "@/types/global";
 import action from "../handlers/action";
-import { AnswerServerSchema, GetAnswersSchema } from "../validations";
+import { AnswerServerSchema, DeleteAnswerSchema, GetAnswersSchema } from "../validations";
 import handleError from "../handlers/error";
 import Answer, { IAnswerDoc } from "@/database/answer.model";
-import { Question } from "@/database";
+import { Question, Vote } from "@/database";
 import { revalidatePath } from "next/cache";
 import ROUTES from "@/constants/routes";
+import { createInteraction } from "./interaction.action";
+import { after } from "next/server";
+import type { CreateAnswerParams, GetAnswersParams, DeleteAnswerParams } from "@/types/action";
 
 export async function createAnswer(
     params: CreateAnswerParams
@@ -22,6 +23,10 @@ export async function createAnswer(
 
     if (validationResult instanceof Error) {
         return handleError(validationResult) as ErrorResponse;
+    }
+
+    if (!validationResult.params) {
+        return handleError(new Error("参数验证失败")) as ErrorResponse;
     }
 
     const { content, questionId } = validationResult.params;

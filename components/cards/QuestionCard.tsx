@@ -4,9 +4,10 @@ import Link from "next/link";
 import TagCard from "./TagCard";
 import Metric from "../Metric";
 import EditDeleteAction from "../user/EditDeleteAction";
+import type { IQuestionDoc } from "@/database/question.model";
 
 interface Props {
-  question: Question;
+  question: IQuestionDoc;
   showActionBtns?: boolean;
 }
 const QuestionCard = ({
@@ -18,28 +19,32 @@ const QuestionCard = ({
       <div className="flex flex-col-reverse items-center justify-between gap-5 sm:flex-row">
         <div className="flex-1">
           <div className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
-            <span>{getTimeStamp(createdAt)}</span>
+            <span>{createdAt ? getTimeStamp(createdAt) : ""}</span>
           </div>
-          <Link href={ROUTES.QUESTION(_id)}>
+          <Link href={ROUTES.QUESTION(_id.toString())}>
             <h3 className="sm:hh3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1">
               {title}
             </h3>
           </Link>
         </div>
-        {showActionBtns && <EditDeleteAction type="Question" itemId={_id} />}
+        {showActionBtns && <EditDeleteAction type="Question" itemId={_id.toString()} />}
       </div>
       <div className="mt-3.5 flex w-full flex-wrap gap-2">
-        {tags.map((tag) => (
-          <TagCard key={tag._id} name={tag.name} _id={tag._id} compact={true} />
-        ))}
+        {tags.map((tag) => {
+          const tagId = typeof tag === 'object' && '_id' in tag ? tag._id : tag;
+          const tagName = typeof tag === 'object' && 'name' in tag ? tag.name : '';
+          return (
+            <TagCard key={tagId.toString()} name={tagName} _id={tagId.toString()} compact={true} />
+          );
+        })}
       </div>
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <Metric
-          imgUrl={author.image}
-          alt={author.name}
-          value={author.name}
-          title={`发布于${getTimeStamp(createdAt)}`}
-          href={ROUTES.PROFILE(author._id)}
+          imgUrl={(typeof author === 'object' && 'image' in author ? author.image : '') || ''}
+          alt={typeof author === 'object' && 'name' in author ? author.name : ''}
+          value={typeof author === 'object' && 'name' in author ? author.name : ''}
+          title={`发布于${createdAt ? getTimeStamp(createdAt) : ""}`}
+          href={ROUTES.PROFILE(typeof author === 'object' && '_id' in author ? author._id.toString() : '')}
           textStyles="body-medium text-dark400_light700"
           isAuthor
           titleStyle="mx-sm:hidden"

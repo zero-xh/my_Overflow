@@ -79,7 +79,7 @@ interface User {
 
 interface Collection {
     _id: string;
-    question: Question;
+    question: IQuestionDoc;
     author: string | Author;
 }
 

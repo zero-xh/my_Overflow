@@ -5,6 +5,7 @@ import { QueryFilter } from "mongoose";
 import { Question, Tag } from "@/database";
 import { GetTagQuestionsParams } from "@/types/action";
 import dbConnect from "../mongoose";
+import type { IQuestionDoc } from "@/database/question.model";
 
 export async function getTags(params: PaginatedSearchParams): Promise<ActionResponse<{ tags: Tag[]; isNext: boolean }>> {
     const validationResult = await action({
@@ -71,7 +72,7 @@ export async function getTopTags(): Promise<ActionResponse<Tag[]>> {
 
 
 
-export async function getTagQuestions(params: GetTagQuestionsParams): Promise<ActionResponse<{ tag: Tag, questions: Question[]; isNext: boolean }>> {
+export async function getTagQuestions(params: GetTagQuestionsParams): Promise<ActionResponse<{ tag: Tag, questions: IQuestionDoc[]; isNext: boolean }>> {
     const validationResult = await action({
         params,
         schema: GetTagQuestionsSchema,

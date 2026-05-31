@@ -1,6 +1,4 @@
-import { PaginatedSearchParams } from "./global";
-
-interface SignInWithOAuthParams {
+export interface SignInWithOAuthParams {
     provider: 'github',
     providerAccountId: string,
     user: {
@@ -10,86 +8,90 @@ interface SignInWithOAuthParams {
     }
 }
 
-interface AuthCredentials {
+export interface AuthCredentials {
     name: string;
     username: string;
     email: string;
     password: string;
 }
 
-interface CreateQuestionParams {
+export interface CreateQuestionParams {
     title: string;
     content: string;
     tags: string[];
 }
 
-interface EditQuestionParams extends CreateQuestionParams {
+export interface EditQuestionParams extends CreateQuestionParams {
     questionId: string;
 }
 
-interface GetQuestionParams {
+export interface GetQuestionParams {
     questionId: string;
 }
 
-interface GetTagQuestionsParams extends Omit<PaginatedSearchParams, "filter"> {
+export interface GetTagQuestionsParams extends Omit<PaginatedSearchParams, "filter"> {
     tagId: string;
 }
 
-interface IncrementViewsParams {
+export interface IncrementViewsParams {
     questionId: string;
 }
 
-interface CreateAnswerParams {
+export interface CreateAnswerParams {
     questionId: string;
     content: string;
 }
 
-interface CreateVoteParams {
+export interface CreateVoteParams {
     targetId: string;
     targetType: "question" | "answer";
     voteType: "upvote" | "downvote";
 }
 
-interface UpdateVoteCountParams extends CreateVoteParams {
+export interface UpdateVoteCountParams extends CreateVoteParams {
     change: 1 | -1;
 }
 
-type HasVotedParams = Pick<CreateVoteParams, "targetId" | "targetType">;
-interface HasVotedResponse {
+export type HasVotedParams = Pick<CreateVoteParams, "targetId" | "targetType">;
+export interface HasVotedResponse {
     hasUpvoted: boolean;
     hasDownvoted: boolean;
 }
 
-interface CollectionBaseParams {
+export interface CollectionBaseParams {
     questionId: string;
 }
 
-interface GetUserParams {
+export interface GetUserParams {
     userId: string;
 }
 
-interface GetUserQuestionsParams
+export interface GetUserQuestionsParams
     extends Omit<PaginatedSearchParams, "query | filter | sort"> {
     userId: string;
 }
 
-interface GetUserAnswersParams extends PaginatedSearchParams {
+export interface GetUserAnswersParams extends PaginatedSearchParams {
     userId: string;
 }
 
-interface GetUserTagsParams {
-    userId: string;
-}
-
-interface DeleteQuestionParams {
+export interface GetAnswersParams extends Omit<PaginatedSearchParams, "query"> {
     questionId: string;
 }
 
-interface DeleteAnswerParams {
+export interface GetUserTagsParams {
+    userId: string;
+}
+
+export interface DeleteQuestionParams {
+    questionId: string;
+}
+
+export interface DeleteAnswerParams {
     answerId: string;
 }
 
-interface CreateInteractionParams {
+export interface CreateInteractionParams {
     action:
     | "view"
     | "upvote"
@@ -105,14 +107,14 @@ interface CreateInteractionParams {
 }
 
 
-interface UpdateReputationParams {
+export interface UpdateReputationParams {
     interaction: IInteractionDoc;
     session: mongoose.ClientSession;
     performerId: string;
     authorId: string;
 }
 
-interface RecommendationParams {
+export interface RecommendationParams {
     userId: string;
     query?: string;
     skip: number;

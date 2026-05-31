@@ -1,14 +1,27 @@
 import mongoose from "mongoose";
 
+export interface ITag {
+    _id: mongoose.Types.ObjectId;
+    name: string;
+}
+
+export interface IAuthor {
+    _id: mongoose.Types.ObjectId;
+    name: string;
+    image?: string;
+}
+
 export interface IQuestion {
     title: string
     content: string
-    tags: mongoose.Types.ObjectId[]
+    tags: (mongoose.Types.ObjectId | ITag)[]
     views: number
     upvotes: number
     downvotes: number
     answers: number
-    author: mongoose.Types.ObjectId
+    author: mongoose.Types.ObjectId | IAuthor
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 export interface IQuestionDoc extends IQuestion, mongoose.Document { }

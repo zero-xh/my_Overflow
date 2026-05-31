@@ -6,6 +6,7 @@ import { IInteractionDoc } from "@/database/interaction.model";
 import action from "../handlers/action";
 import handleError from "../handlers/error";
 import { CreateInteractionSchema } from "../validations";
+import type { CreateInteractionParams, UpdateReputationParams } from "@/types/action";
 
 export async function createInteraction(
     params: CreateInteractionParams
