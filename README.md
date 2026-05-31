@@ -360,27 +360,6 @@ test: 测试相关
 chore: 构建过程或辅助工具的变动
 ```
 
-## 📄 许可证
-
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
-
-## 👥 作者
-
-- **你的名字** - *初始工作* - [YourGitHub](https://github.com/yourusername)
-
-## 🙏 致谢
-
-- [Next.js](https://nextjs.org/) 团队
-- [Vercel](https://vercel.com/) 提供的优秀平台
-- 所有开源贡献者
-
-## 📞 联系方式
-
-- 项目链接: [https://github.com/yourusername/my-devflow](https://github.com/yourusername/my-devflow)
-- 问题反馈: [Issues](https://github.com/yourusername/my-devflow/issues)
-
----
-
 <div align="center">
 
 如果这个项目对你有帮助，请考虑给它一个 ⭐️ Star！
